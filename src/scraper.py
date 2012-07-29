@@ -5,6 +5,7 @@ from __future__ import print_function
 
 import os
 import sys
+import errno
 import os.path
 import urllib2
 import datetime
@@ -14,13 +15,25 @@ try:
 except ImportError:
     import pickle
 
-from DutraParser import DutraParser
+from CCRParser import CCRParser
 
 LOGDIR = os.environ.get('SCRAPER_LOG_DIR', 'logs')
-URL = 'http://www.novadutra.com.br/servicos/BoletimOnline.aspx'
+URLS = [('dutra', 'http://www.novadutra.com.br/'),
+        ('spvias', 'http://www.spvias.com.br/'),
+        ('ponte', 'http://www.ponte.com.br/'),
+        ('vialagos', 'http://www.rodoviadoslagos.com.br/'),
+        ('rodonorte', 'http://www.rodonorte.com.br/'),
+        ('autoban', 'http://www.autoban.com.br/'),
+        ('viaoeste', 'http://www.viaoeste.com.br/'),
+        ('rodoanel', 'http://www.rodoaneloeste.com.br/')]
+SUFFIX = '/servicos/BoletimOnline.aspx'
 
-def isonow():
-    return datetime.datetime.utcnow().isoformat()
+def utcnow():
+    return datetime.datetime.utcnow()
+
+def date_to_path(date):
+    return reduce(os.path.join, [str(i) for i in [date.year, date.month,
+        date.day] + ['%s:%s' % (date.hour, date.minute)]])
 
 def check_sanity():
     if not os.path.exists(LOGDIR):
@@ -28,23 +41,53 @@ def check_sanity():
     else:
         if not os.path.isdir(LOGDIR):
             raise SystemExit(LOGDIR + ' exists, but is not a directory')
+    for (highway, _) in URLS:
+        path = os.path.join(LOGDIR, highway)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        else:
+            if not os.path.isdir(path):
+                raise SystemExit(path + ' exists, but is not a directory')
+
+def getpois(parser, url):
+    try:
+        page = urllib2.urlopen(url + SUFFIX)
+        # parse the data and convert it to something we can use
+        pois = list(parser.parse(page.read()))
+        page.close()
+        return pois
+    except urllib2.URLError:
+        return []
+
+def createpath(filename):
+    try:
+        os.makedirs(os.path.dirname(filename))
+    except OSError as error:
+        if error.errno == errno.EEXIST:
+            pass
+        else:
+            # Oops
+            raise
+
+def storedata(highway, pois, filename):
+    # store the data
+    lockname = filename + '.lock'
+    open(lockname, 'w').close()
+    fp = open(filename, 'w')
+    pickle.dump(pois, fp)
+    fp.close()
+    os.unlink(lockname)
 
 def main(args):
     check_sanity()
+    parser = CCRParser()
+    path = date_to_path(utcnow())
     # download the data from the CCR site
-    parser = DutraParser()
-    page = urllib2.urlopen(URL)
-    # parse the data and convert it to something we can use
-    pois = parser.parse(page.read())
-    page.close()
-    # store the data
-    filename = os.path.join(LOGDIR, isonow())
-    lockname = filename + '.lock'
-    open(lockname, 'w').close() # Create a lockfile
-    fp = open(filename, 'w')
-    pickle.dump(list(pois), fp)
-    fp.close()
-    os.unlink(lockname)
+    for (highway, url) in URLS:
+        filename = os.path.join(LOGDIR, highway, path)
+        pois = getpois(parser, url)
+        createpath(filename)
+        storedata(highway, pois, filename)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

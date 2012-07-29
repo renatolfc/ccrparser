@@ -6,8 +6,8 @@ from __future__ import print_function
 from HTMLParser import HTMLParser
 import re
 
-class DutraParser(HTMLParser):
-    '''Simple parser for the CCR Dutra's "BoletimOnline" page.
+class CCRParser(HTMLParser):
+    '''Simple parser for CCR's "BoletimOnline" page.
 
     This class parses the page and populates the pois attribute when it finds
     Points of Interest with low flow in the highway.
@@ -16,21 +16,20 @@ class DutraParser(HTMLParser):
 
     poitag = 'div'
     poiattrs = ('class', 'box_postos')
-    poicolumns = ('first_city', 'second_city', 'stretch', 'traffic', 'lane',
-                'reason', 'observation', 'start', 'end')
-    poiregex = re.compile(r'^(?P<%s>.+)\s-\s(?P<%s>.+)\s'
-            r'(?P<%s>km\s\d+\sao\s\d+)$\s*'
+    poicolumns = ('stretch', 'traffic', 'lane', 'reason', 'observation',
+            'start', 'end')
+    poiregex = re.compile(r'^(?P<%s>.*)$\s*'
             r'^.*:\s+(?P<%s>.*)$\s*'
             r'^.*:\s+(?P<%s>.*)$\s*'
             r'^.*:\s+(?P<%s>.*)$\s*'
             r'^.*:\s+(?P<%s>.*)$\s*'
             r'^.*:\s+(?P<%s>.*)$\s*'
-            r'^.*:\s+(?P<%s>.*)$' % poicolumns, re.MULTILINE)
+            r'^.*:\s+(?P<%s>.*)$' % poicolumns, re.MULTILINE|re.DOTALL)
 
     def __init__(self):
         HTMLParser.__init__(self)
-        self.workstr = ''
         self.alldata = []
+        self.workstr = ''
         self.indiv = False
 
     def handle_starttag(self, tag, attrs):
@@ -59,7 +58,8 @@ class DutraParser(HTMLParser):
         return d
 
     def parse(self, page):
+        self.alldata = []
         self.feed(page)
         matches = (self.poiregex.match(poi) for poi in self.alldata)
-        return (self.match_to_dict(match) for match in matches)
+        return (self.match_to_dict(match) for match in matches if match is not None)
 

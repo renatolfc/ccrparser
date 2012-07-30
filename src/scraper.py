@@ -53,7 +53,8 @@ def getpois(parser, url):
     try:
         page = urllib2.urlopen(url + SUFFIX)
         # parse the data and convert it to something we can use
-        pois = list(parser.parse(page.read()))
+        # FIXME: This 'utf-8' hard-coded here is a tragedy waiting to happen
+        pois = list(parser.parse(unicode(page.read(), 'utf-8')))
         page.close()
         return pois
     except urllib2.URLError:

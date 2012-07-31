@@ -78,7 +78,7 @@ def lock(filename):
     lockname = filename + '.lock'
     open(lockname, 'w').close()
 
-def storedata(highway, pois, filename):
+def storedata(pois, filename):
     # store the data
     lock(filename)
     fp = open(filename, 'w')
@@ -95,7 +95,7 @@ def main(args):
         filename = os.path.join(LOGDIR, highway, path)
         pois = getpois(parser, url)
         createpath(filename)
-        storedata(highway, pois, filename)
+        storedata(pois, filename)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

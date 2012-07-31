@@ -93,12 +93,15 @@ def storedata(pois, filename):
     # If the current file is equal to the previous one, we can just link this
     # file to that
     current = [int(i) for i in os.path.basename(filename).split(':')]
-    if current[1] == 0:
+    if current[0] == 0 and current[1] == 0:
         # We don't want to handle the case where we have to link to a file in
         # another directory, so if it is midnight, we'll accept the burden of
         # having a duplicated file.
         return
-    previous = str(current[0]) + ':' + str(int(current[1])-1)
+    elif current[1] == 0:
+        previous = str(current[0]-1) + ':59'
+    else:
+        previous = str(current[0]) + ':' + str(int(current[1])-1)
     previous = os.path.join(os.path.dirname(filename), previous)
     if os.path.exists(previous) and filecmp.cmp(filename, previous):
         # Files are equal, let's just link them

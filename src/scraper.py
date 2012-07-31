@@ -6,6 +6,7 @@ from __future__ import print_function
 import os
 import sys
 import errno
+import filecmp
 import os.path
 import urllib2
 import datetime
@@ -79,12 +80,32 @@ def lock(filename):
     open(lockname, 'w').close()
 
 def storedata(pois, filename):
-    # store the data
+    # FIXME: Define a better way to determine the file path
+
     lock(filename)
+
     fp = open(filename, 'w')
     pickle.dump(pois, fp)
     fp.close()
+
     unlock(filename)
+
+    # If the current file is equal to the previous one, we can just link this
+    # file to that
+    current = [int(i) for i in os.path.basename(filename).split(':')]
+    if current[1] == 0:
+        # We don't want to handle the case where we have to link to a file in
+        # another directory, so if it is midnight, we'll accept the burden of
+        # having a duplicated file.
+        return
+    previous = str(current[0]) + ':' + str(int(current[1])-1)
+    previous = os.path.join(os.path.dirname(filename), previous)
+    if os.path.exists(previous) and filecmp.cmp(filename, previous):
+        # Files are equal, let's just link them
+        lock(filename)
+        os.unlink(filename)
+        os.link(previous, filename)
+        unlock(filename)
 
 def main(args):
     check_sanity()

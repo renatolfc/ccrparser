@@ -70,14 +70,21 @@ def createpath(filename):
             # Oops
             raise
 
-def storedata(highway, pois, filename):
-    # store the data
+def unlock(filename):
+    lockname = filename + '.lock'
+    os.unlink(lockname)
+
+def lock(filename):
     lockname = filename + '.lock'
     open(lockname, 'w').close()
+
+def storedata(highway, pois, filename):
+    # store the data
+    lock(filename)
     fp = open(filename, 'w')
     pickle.dump(pois, fp)
     fp.close()
-    os.unlink(lockname)
+    unlock(filename)
 
 def main(args):
     check_sanity()

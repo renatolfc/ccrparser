@@ -33,8 +33,9 @@ def utcnow():
     return datetime.datetime.utcnow()
 
 def date_to_path(date):
-    return reduce(os.path.join, [str(i) for i in [date.year, date.month,
-        date.day] + ['%s:%s' % (date.hour, date.minute)]])
+    join = lambda a, b: os.path.join(str(a), str(b))
+    return reduce(join, [date.year, date.month, date.day]
+        + ['%.2d:%.2d' % (date.hour, date.minute)])
 
 def check_sanity():
     if not os.path.exists(LOGDIR):

@@ -142,6 +142,39 @@ inputStrs = [
       </div>
     </div>
     ''',
+    '''
+    <div class="box_pontos">
+      <h3 class="titulo_principal">SENTIDO: Interior/Capital (Sul)</h3>
+      <div class="box_postos">
+          <p>
+            <strong>Bandeirantes - Trecho: São Paulo - Jundiaí</strong><br />
+            Condições de Tráfego: Congestionado<br />
+            Pista: Expressa<br />
+            Motivo: Acidente<br />
+            Observação: Ás 21:25 faixa 1 liberada.
+    ás 21:43 faixa 2 liberadas.<br />
+            KM Inicial: <span class='km'>55</span><br />
+            KM Final: <span class='km'>51</span><br />
+            Trecho: Região de Jundiaí.<br />
+          </p>
+      </div>
+    </div>
+    <div class="box_pontos">
+      <h3 class="titulo_principal">SENTIDO: Interior/Capital (Sul)</h3>
+      <div class="box_postos">
+          <p>
+            <strong>Anhanguera - Trecho: São Paulo - Jundiaí</strong><br />
+            Condições de Tráfego: Congestionado<br />
+            Pista: Expressa<br />
+            Motivo: Acidente<br />
+            Observação: <br />
+            KM Inicial: <span class='km'>25</span><br />
+            KM Final: <span class='km'>25</span><br />
+            Trecho: Região de Perus.<br />
+          </p>
+      </div>
+    </div>
+    ''',
 ]
 
 outputMatches = [
@@ -153,6 +186,7 @@ outputMatches = [
     [],
     [],
     [{u'lane': u'1', u'end': u'1', u'observation': u'1', u'stretch': u'Lugar 1', u'start': u'1', u'reason': u'1', u'traffic': u'1'}],
+    [{u'lane': u'Expressa', u'end': u'25', u'observation': u'-', u'stretch': u'Anhanguera - Trecho: S\xe3o Paulo - Jundia\xed', u'start': u'25', u'reason': u'Acidente', u'traffic': u'Congestionado'}, {u'lane': u'Expressa', u'end': u'51', u'observation': u'\xc1s 21:25 faixa 1 liberada.\n    \xe1s 21:43 faixa 2 liberadas.', u'stretch': u'Bandeirantes - Trecho: S\xe3o Paulo - Jundia\xed', u'start': u'55', u'reason': u'Acidente', u'traffic': u'Congestionado'}],
 ]
 
 def areMatchesEqual(first, second):

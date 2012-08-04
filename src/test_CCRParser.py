@@ -189,12 +189,6 @@ outputMatches = [
     [{u'lane': u'Expressa', u'end': u'25', u'observation': u'-', u'stretch': u'Anhanguera - Trecho: S\xe3o Paulo - Jundia\xed', u'start': u'25', u'reason': u'Acidente', u'traffic': u'Congestionado'}, {u'lane': u'Expressa', u'end': u'51', u'observation': u'\xc1s 21:25 faixa 1 liberada.\n    \xe1s 21:43 faixa 2 liberadas.', u'stretch': u'Bandeirantes - Trecho: S\xe3o Paulo - Jundia\xed', u'start': u'55', u'reason': u'Acidente', u'traffic': u'Congestionado'}],
 ]
 
-def areMatchesEqual(first, second):
-    for i, j in zip(sorted(first), sorted(second)):
-        if i != j:
-            return False
-    return True
-
 class TestCCRParser(unittest.TestCase):
     def setUp(self):
         self.parser = CCRParser()

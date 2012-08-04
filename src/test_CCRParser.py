@@ -178,15 +178,15 @@ inputStrs = [
 ]
 
 outputMatches = [
-    [{u'lane': u'Expressa', u'end': u'150', u'observation': u'Em S\xe3o Jos\xe9 dos Campos.', u'stretch': u'Jacarei - SJCampos km 162 ao 133', u'start': u'149', u'reason': u'Acidente', u'traffic': u'Lento'}],
-    [{u'lane': u'Expressa', u'end': u'150', u'observation': u'Em S\xe3o Jos\xe9 dos Campos.', u'stretch': u'Jacarei - SJCampos km 162 ao 133', u'start': u'149', u'reason': u'Acidente', u'traffic': u'Lento'}, {u'lane': u'Local', u'end': u'150', u'observation': u'Em sao trevas.', u'stretch': u'Lugar 1', u'start': u'204', u'reason': u'Acidente', u'traffic': u'Muito rapido'}],
-    [{u'lane': u'Expressa', u'end': u'150', u'observation': u'Em S\xe3o Jos\xe9 dos Campos.', u'stretch': u'Jacarei - SJCampos km 162 ao 133', u'start': u'149', u'reason': u'Acidente', u'traffic': u'Lento'}, {u'lane': u'Local', u'end': u'150', u'observation': u'Em sao trevas.', u'stretch': u'Lugar 1', u'start': u'204', u'reason': u'Acidente', u'traffic': u'Muito rapido'}],
+    [{u'lane': u'Expressa', u'end': 150.0, u'observation': u'Em S\xe3o Jos\xe9 dos Campos.', u'stretch': u'Jacarei - SJCampos km 162 ao 133', u'start': 149.0, u'reason': u'Acidente', u'traffic': u'Lento'}],
+    [{u'lane': u'Expressa', u'end': 150.0, u'observation': u'Em S\xe3o Jos\xe9 dos Campos.', u'stretch': u'Jacarei - SJCampos km 162 ao 133', u'start': 149.0, u'reason': u'Acidente', u'traffic': u'Lento'}, {u'lane': u'Local', u'end': 150.0, u'observation': u'Em sao trevas.', u'stretch': u'Lugar 1', u'start': 204.0, u'reason': u'Acidente', u'traffic': u'Muito rapido'}],
+    [{u'lane': u'Expressa', u'end': 150.0, u'observation': u'Em S\xe3o Jos\xe9 dos Campos.', u'stretch': u'Jacarei - SJCampos km 162 ao 133', u'start': 149.0, u'reason': u'Acidente', u'traffic': u'Lento'}, {u'lane': u'Local', u'end': 150.0, u'observation': u'Em sao trevas.', u'stretch': u'Lugar 1', u'start': 204.0, u'reason': u'Acidente', u'traffic': u'Muito rapido'}],
     [],
     [],
     [],
     [],
-    [{u'lane': u'1', u'end': u'1', u'observation': u'1', u'stretch': u'Lugar 1', u'start': u'1', u'reason': u'1', u'traffic': u'1'}],
-    [{u'lane': u'Expressa', u'end': u'25', u'observation': u'-', u'stretch': u'Anhanguera - Trecho: S\xe3o Paulo - Jundia\xed', u'start': u'25', u'reason': u'Acidente', u'traffic': u'Congestionado'}, {u'lane': u'Expressa', u'end': u'51', u'observation': u'\xc1s 21:25 faixa 1 liberada.\n    \xe1s 21:43 faixa 2 liberadas.', u'stretch': u'Bandeirantes - Trecho: S\xe3o Paulo - Jundia\xed', u'start': u'55', u'reason': u'Acidente', u'traffic': u'Congestionado'}],
+    [{u'lane': u'1', u'end': 1.0, u'observation': u'1', u'stretch': u'Lugar 1', u'start': 1.0, u'reason': u'1', u'traffic': u'1'}],
+    [{u'lane': u'Expressa', u'end': 25.0, u'observation': u'-', u'stretch': u'Anhanguera - Trecho: S\xe3o Paulo - Jundia\xed', u'start': 25.0, u'reason': u'Acidente', u'traffic': u'Congestionado'}, {u'lane': u'Expressa', u'end': 51.0, u'observation': u'\xc1s 21:25 faixa 1 liberada.\n    \xe1s 21:43 faixa 2 liberadas.', u'stretch': u'Bandeirantes - Trecho: S\xe3o Paulo - Jundia\xed', u'start': 55.0, u'reason': u'Acidente', u'traffic': u'Congestionado'}],
 ]
 
 class TestCCRParser(unittest.TestCase):

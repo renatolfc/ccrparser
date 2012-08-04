@@ -35,6 +35,11 @@ class CCRParser(object):
                 colon = tmp.find(':') if column != u'stretch' else -1
                 value = tmp[colon+1:].strip()
                 d[column] = value if len(value) != 0 else u'-'
+                try:
+                    if column == u'start' or column == u'end':
+                        d[column] = float(d[column].replace(',', '.'))
+                except ValueError:
+                    pass
             except IndexError:
                 d[column] = u'-'
         if d == {}:

@@ -133,7 +133,7 @@ outputMatches = [
     [{u'lane': u'Expressa', u'end': u'150', u'observation': u'Em S\xe3o Jos\xe9 dos Campos.', u'stretch': u'Jacarei - SJCampos km 162 ao 133', u'start': u'149', u'reason': u'Acidente', u'traffic': u'Lento'}, {u'lane': u'Local', u'end': u'150', u'observation': u'Em sao trevas.', u'stretch': u'Lugar 1', u'start': u'204', u'reason': u'Acidente', u'traffic': u'Muito rapido'}],
     [],
     [],
-    [{u'lane': u'1', u'end': u'-', u'observation': u'3', u'stretch': u'Lugar 1', u'start': u'4', u'reason': u'2', u'traffic': u'bla bla bla'}],
+    [],
     [],
 ]
 

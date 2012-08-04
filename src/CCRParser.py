@@ -3,7 +3,7 @@
 
 from __future__ import print_function
 
-from BeautifulSoup import BeautifulSoup, UnicodeDammit
+from BeautifulSoup import BeautifulSoup
 import re
 
 class CCRParser(object):

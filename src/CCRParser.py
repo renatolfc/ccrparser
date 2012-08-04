@@ -6,6 +6,8 @@ from __future__ import print_function
 from BeautifulSoup import BeautifulSoup
 import re
 
+unlikely_pattern = r'~~~======~~~::::,,,xpto~~~==='
+
 class CCRParser(object):
     '''Simple parser for CCR's "BoletimOnline" page.
 
@@ -18,38 +20,29 @@ class CCRParser(object):
     poiattrs = 'box_postos'
     poicolumns = (u'stretch', u'traffic', u'lane', u'reason', u'observation',
             u'start', u'end')
-    poiregex = re.compile(r'^(?P<%s>.*)$\s*'
-            r'^.*:\s?(?P<%s>.*)$\s*'
-            r'^.*:\s?(?P<%s>.*)$\s*'
-            r'^.*:\s?(?P<%s>.*)$\s*'
-            r'^.*:\s?(?P<%s>.*)$\s*'
-            r'^.*:\s?(?P<%s>.*)$\s*'
-            r'^.*:\s?(?P<%s>.*)$' % poicolumns, re.MULTILINE|re.DOTALL)
+    start = r'KM Inicial:\s*' + unlikely_pattern
+    end = r'KM Final:\s*' + unlikely_pattern
     importantcolumns = (u'stretch', u'start', u'end', u'traffic')
+    container = 'p'
+    realstart = 'KM Inicial: '
+    realend = 'KM Final: '
 
     def match_to_dict(self, match):
         d = {}
-        for column in self.poicolumns:
+        for i, column in enumerate(self.poicolumns):
             try:
-                value = match.group(column).strip()
+                tmp = match[i]
+                colon = tmp.find(':') if column != u'stretch' else -1
+                value = tmp[colon+1:].strip()
                 d[column] = value if len(value) != 0 else u'-'
             except IndexError:
                 d[column] = u'-'
-
-        return d
-
-    def _valid(self, match):
-        if match is None:
-            return False
+        if d == {}:
+            return None
         for column in self.importantcolumns:
-            try:
-                value = match.group(column).strip()
-                if len(value) == 0:
-                    return False
-            except IndexError:
-                if column in self.importantcolumns:
-                    return False
-        return True
+            if d[column] == u'-':
+                return None
+        return d
 
     def parse(self, page):
         alldata = []
@@ -57,8 +50,15 @@ class CCRParser(object):
         boxes = pagesoup.findAll(self.poitag, self.poiattrs)
         for box in boxes:
             soup = BeautifulSoup(str(box))
-            for p in soup.findAll('p'):
-                alldata.append(p.getText('\n'))
-        matches = (self.poiregex.match(poi) for poi in alldata)
-        return (self.match_to_dict(match) for match in matches if self._valid(match))
+            for p in soup.findAll(self.container):
+                text = p.getText(unlikely_pattern)
+                text = re.sub(self.start, self.realstart, text, flags = re.I)
+                text = re.sub(self.end, self.realend, text, flags = re.I)
+                alldata.append(text)
+        for elem in alldata:
+            elem = elem.split(unlikely_pattern)
+            elem = filter(lambda e: len(e) != 0, elem)
+            out = self.match_to_dict(elem)
+            if out is not None:
+                yield out
 

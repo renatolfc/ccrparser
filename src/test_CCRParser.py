@@ -150,7 +150,7 @@ class TestCCRParser(unittest.TestCase):
     def test_parse(self):
         for i, j in zip(inputStrs, outputMatches):
             out = self.parser.parse(i)
-            self.assertEqual(sorted(out), sorted(j))
+            self.assertEqual(sorted(j), sorted(out))
 
 if __name__ == '__main__':
     unittest.main()

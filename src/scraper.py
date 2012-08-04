@@ -5,16 +5,12 @@ from __future__ import print_function
 
 import os
 import sys
+import json
 import errno
 import filecmp
 import os.path
 import urllib2
 import datetime
-
-try:
-    import cPickle as pickle
-except ImportError:
-    import pickle
 
 from CCRParser import CCRParser
 
@@ -85,7 +81,7 @@ def storedata(pois, filename):
     lock(filename)
 
     fp = open(filename, 'w')
-    pickle.dump(pois, fp)
+    fp.write(json.dumps(pois, sort_keys=True, indent=2)+'\n')
     fp.close()
 
     unlock(filename)

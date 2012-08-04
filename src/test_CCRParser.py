@@ -125,6 +125,23 @@ inputStrs = [
       </div>
     </div>
     ''',
+    '''
+    <div class="box_pontos">
+      <h3 class="titulo_principal">SENTIDO: Pista SP-Rio</h3>
+      <div class="box_postos">
+          <p>
+            <strong>Lugar 1</strong><br />
+            Condições de Tráfego:1<br />
+            Pista:1<br />
+            Motivo:1<br />
+            Observação:1<br />
+            KM Inicial:1<br />
+            KM Final:1<br />
+            <br />
+          </p>
+      </div>
+    </div>
+    ''',
 ]
 
 outputMatches = [
@@ -135,6 +152,7 @@ outputMatches = [
     [],
     [],
     [],
+    [{u'lane': u'1', u'end': u'1', u'observation': u'1', u'stretch': u'Lugar 1', u'start': u'1', u'reason': u'1', u'traffic': u'1'}],
 ]
 
 def areMatchesEqual(first, second):

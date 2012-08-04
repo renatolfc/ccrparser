@@ -30,7 +30,7 @@ class CCRParser(object):
         d = {}
         for column in self.poicolumns:
             try:
-                d[column] = match.group(column)
+                d[column] = match.group(column).strip()
             except IndexError:
                 d[column] = '-'
         return d

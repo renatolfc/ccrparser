@@ -30,9 +30,10 @@ class CCRParser(object):
         d = {}
         for column in self.poicolumns:
             try:
-                d[column] = match.group(column).strip()
+                value = match.group(column).strip()
+                d[column] = value if len(value) != 0 else u'-'
             except IndexError:
-                d[column] = '-'
+                d[column] = u'-'
         return d
 
     def parse(self, page):

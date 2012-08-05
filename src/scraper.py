@@ -114,8 +114,6 @@ def main(args):
     for (highway, url) in URLS:
         filename = os.path.join(LOGDIR, highway, path)
         pois = getpois(parser, url)
-        for poi in pois:
-            poi[u'timestamp'] = path.replace('/', '-')
         createpath(filename)
         storedata(pois, filename)
 
